@@ -4,10 +4,15 @@ Type in a technology choice and the AI blockchain decentralized markets will dec
 
 Please don't be offended, this is all just a joke.
 
-## To run
+## To run locally
 
 1. `python3 -m http.server 8666`
 1. Go to http://localhost:8666
+
+## Run in docker
+
+1. `docker build -t isitwebscale . && docker container run -p 8667:80 isitwebscale:latest`
+1. Go to http://localhost:8667
 
 ## To add new technologies
 
