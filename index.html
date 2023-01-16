@@ -1,12 +1,20 @@
-<html>
+<!DOCTYPE html>
+<html lang=en>
 
 <head>
-  <script src="/static/js/script.js"></script>
-  <link rel="stylesheet" href="/static/css/holiday.css" />
-  <link rel="stylesheet" href="/static/css/styles.css" />
-  <link rel="stylesheet" href="/static/css/gh-fork-ribbon.css" />
-  <link rel="stylesheet" href="/static/css/dots.css" />
-</head>
+  <meta charset=utf-8>
+  <meta http-equiv=X-UA-Compatible content='IE=edge;chrome=1'>
+  <meta name=viewport content="width=device-width, initial-scale=1">
+  <title>Is It Web Scale?</title>
+
+  <head>
+    <script src="/static/js/script.js"></script>
+    <link rel="stylesheet" href="/static/css/holiday.css" />
+    <link rel="stylesheet" href="/static/css/styles.css" />
+    <link rel="stylesheet" href="/static/css/gh-fork-ribbon.css" />
+    <link rel="stylesheet" href="/static/css/dots.css" />
+    <link rel="stylesheet" href="/static/css/spinner.css" />
+  </head>
 
 <body>
   <a class="github-fork-ribbon" href="https://github.com/adamghill/isitwebscale" data-ribbon="Fork me on GitHub"
@@ -24,6 +32,11 @@
     <h2 id="result">
       Type in a name of some technology above to find all of the answers you seek.
     </h2>
+
+    <div id="spinner-container">
+      <div id="spinner">🤔</div>
+    </div>
+
   </main>
 </body>
 

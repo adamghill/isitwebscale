@@ -66,18 +66,15 @@ body {
 		sans-serif,
 		'Apple Color Emoji',
 		'Segoe UI Emoji';
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-    width: calc(100% - 1rem);
-    max-width: var(--max-body-width);
-    min-height: 100%;
-    margin: 0 auto;
-    overflow-wrap: break-word;
-    color: var(--text-color);
-    background-color: var(--background-color);
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 1rem);
+  max-width: var(--max-body-width);
+  min-height: 100%;
+  margin: 0 auto;
+  overflow-wrap: break-word;
+  color: var(--text-color);
+  background-color: var(--background-color);
 }
 
 input {

@@ -13,3 +13,18 @@ h1 {
     height: 2em;
     width: 100%;
 }
+
+#result {
+    color: #666;
+}
+
+#spinner {
+    display: none;
+}
+
+#spinner-container {
+    text-align: center;
+    top: -250px;
+    position: relative;
+    right: -350px;
+}
