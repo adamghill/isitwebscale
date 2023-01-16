@@ -8,7 +8,9 @@
   <title>Is It Web Scale?</title>
 
   <head>
-    <script src="/static/js/script.js"></script>
+    <!-- <script src="/static/js/script.js"></script> -->
+    <script src="/static/js/lite-script.js" type="module"></script>
+
     <link rel="stylesheet" href="/static/css/holiday.css" />
     <link rel="stylesheet" href="/static/css/styles.css" />
     <link rel="stylesheet" href="/static/css/gh-fork-ribbon.css" />
@@ -27,21 +29,20 @@
       is it web scale?
     </h1>
 
-    <p id="examples">
-      Some examples: <a href="#python">Python</a>, <a href="#php">PHP</a>, <a href="#javascript">JavaScript</a>.
-      Add your own by <a href="https://github.com/adamghill/isitwebscale">forking the repo</a>.
+    <p>
+      {this.examples}
     </p>
 
-    <input type="text" id="search" placeholder="Name of technology" autocomplete="off"></input>
+    <input type="text" id="search" placeholder="Name of technology" autocomplete="off" @input="search"></input>
 
-    <h2 id="result">
-      Type in something above to find all of the answers you seek.
+    <h2 :style="this.resultStyle">
+      <span :if="this.result">{this.result}</span>
+      <span :else>Type in something above to find all of the answers you seek.</span>
     </h2>
 
     <div id="spinner-container">
-      <div id="spinner" style="display: none;">🤔</div>
+      <div id="spinner" style="display: none;" :style="this.spinnerStyle">🤔</div>
     </div>
-
   </main>
 </body>
 
