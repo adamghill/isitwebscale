@@ -1,129 +1,116 @@
-let data = {};
-const emptySpaces = ["Black holes aren't", "The void isn't"];
+import Dlite from "//unpkg.com/dlite";
 
-function search(term) {
-  var $spinner = document.getElementById("spinner");
-  $spinner.style.display = "inline-block";
+Dlite({
+  el: "main",
+  data: {
+    emptySpaces: ["Black holes aren't", "The void isn't"],
+    db: {},
+    dbKeys: [],
+    searchTerm: "",
+    result: "",
+    resultStyle: {},
+    spinnerStyle: {},
+    examples: "",
+  },
+  created() {
+    this.loadDb();
 
-  setTimeout(() => {
-    $spinner.style.display = "none";
-  }, 500);
-
-  term = term.toLowerCase();
-
-  for (let key in data) {
-    if (term === key) {
-      return data[key];
-    }
-  }
-}
-
-window.addEventListener("load", () => {
-  var $search = document.getElementById("search");
-  var $result = document.getElementById("result");
-
-  function getSearchTermFromHash() {
-    let searchTerm = location.hash.slice(1);
-    searchTerm = searchTerm.replace("%20", " ");
-
-    return searchTerm;
-  }
-
-  function updateSearchFromHash() {
-    let searchTerm = getSearchTermFromHash();
-
-    $search.value = searchTerm;
-    const result = search(searchTerm);
-
-    if (result) {
-      $result.innerHTML = result;
-      $result.style.color = "var(--success-color)";
-    }
-  }
-
-  function refreshExamples() {
-    var randomExamples = [];
-    var dataKeys = Object.keys(data);
-
-    while (randomExamples.length < 3) {
-      var key = dataKeys[Math.floor(Math.random() * dataKeys.length)];
-      var included = false;
-
-      for (var i = 0; i < randomExamples.length; i++) {
-        if (randomExamples[i] == key) {
-          included = true;
-        }
-      }
-
-      if (location.hash) {
-        let searchTerm = getSearchTermFromHash();
-
-        if (searchTerm === key) {
-          included = true;
-        }
-      }
-
-      if (!included) {
-        randomExamples.push(key);
-      }
-    }
-
-    if (randomExamples) {
-      var examplesHtml = "Some examples: ";
-
-      randomExamples.forEach((key) => {
-        examplesHtml += `<a href="#${key}">${key}</a>, `;
-      });
-
-      examplesHtml = examplesHtml.slice(0, -2);
-      examplesHtml +=
-        ". Add your own by <a href='https://github.com/adamghill/isitwebscale'>forking the repo</a>.";
-
-      var $examples = document.getElementById("examples");
-      $examples.innerHTML = examplesHtml;
-    }
-  }
-
-  (function () {
+    addEventListener("hashchange", () => {
+      this.updateSearchFromHash();
+      this.refreshExamples();
+    });
+  },
+  loadDb() {
     fetch("/data.json")
       .then((response) => response.json())
       .then((_) => {
-        data = _;
+        this.data.db = _;
+        this.data.dbKeys = Object.keys(this.data.db);
 
-        refreshExamples();
-
-        if (location.hash) {
-          updateSearchFromHash();
-        }
+        this.refreshExamples();
+        this.updateSearchFromHash();
       });
-  })();
+  },
+  getRandom(array) {
+    return array[Math.floor(Math.random() * array.length)];
+  },
+  refreshExamples() {
+    var randomExamples = new Set();
+    this.getSearchTermFromHash();
 
-  $search.addEventListener("input", () => {
-    const searchTerm = $search.value;
-    $result.style.color = "#666";
+    while (this.data.dbKeys.length > 0 && randomExamples.size < 3) {
+      let key = this.getRandom(this.data.dbKeys);
 
-    if (searchTerm.trim()) {
-      const result = search(searchTerm);
+      if (key === this.data.searchTerm) {
+        continue;
+      }
 
-      if (result) {
-        $result.innerHTML = result;
-        $result.style.color = "var(--success-color)";
+      randomExamples.add(key);
+    }
 
-        history.pushState({}, "", `#${searchTerm}`);
+    if (randomExamples) {
+      this.data.examples = "Some examples: ";
 
-        refreshExamples();
-      } else {
-        $result.innerHTML = `<em>${searchTerm}</em> can't be web scale because I've never even heard of it.`;
+      randomExamples.forEach((key) => {
+        this.data.examples += `<a href="#${key}">${key}</a>, `;
+      });
+
+      this.data.examples = this.data.examples.slice(0, -2);
+      this.data.examples +=
+        ". Add your own by <a href='https://github.com/adamghill/isitwebscale'>forking the repo</a>.";
+    }
+  },
+  getSearchTermFromHash() {
+    if (location.hash) {
+      let searchTerm = location.hash.slice(1);
+      this.data.searchTerm = searchTerm.replace("%20", " ");
+    } else {
+      this.data.searchTerm = "";
+    }
+  },
+  updateSearchFromHash() {
+    this.getSearchTermFromHash();
+
+    if (this.data.searchTerm) {
+      const el = document.querySelector("#search");
+      el.value = this.data.searchTerm;
+      this.search();
+    }
+  },
+  startSpinner() {
+    this.data.spinnerStyle["display"] = "inline-block";
+
+    setTimeout(() => {
+      this.data.spinnerStyle["display"] = "none";
+    }, 500);
+  },
+  search() {
+    const el = document.querySelector("#search");
+    this.data.searchTerm = el.value.toLowerCase();
+
+    this.startSpinner();
+
+    this.data.result = "";
+    this.data.resultStyle["color"] = "#666";
+
+    if (this.data.searchTerm.trim()) {
+      for (let key in this.data.db) {
+        if (this.data.searchTerm === key) {
+          this.data.result = this.data.db[key];
+          this.data.resultStyle["color"] = "var(--success-color)";
+
+          history.pushState({}, "", `#${this.data.searchTerm}`);
+
+          break;
+        }
+      }
+
+      if (!this.data.result) {
+        this.data.result = `<em>${this.data.searchTerm}</em> can't be web scale because I've never even heard of it.`;
       }
     } else {
-      var emptySpace =
-        emptySpaces[Math.floor(Math.random() * emptySpaces.length)];
-      $result.innerHTML = `${emptySpace} web scale and neither is an empty string.`;
+      let emptySpace = this.getRandom(this.data.emptySpaces);
+      this.data.result = `${emptySpace} web scale and neither is an empty string.`;
     }
-  });
-
-  addEventListener("hashchange", () => {
-    updateSearchFromHash();
-    refreshExamples();
-  });
+  },
 });
