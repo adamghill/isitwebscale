@@ -1,7 +1,7 @@
 import Dlite from "//unpkg.com/dlite";
 
 Dlite({
-  el: "main",
+  el: "#app",
   data: {
     emptySpaces: ["Black holes aren't", "The void isn't"],
     db: {},
@@ -72,7 +72,7 @@ Dlite({
     this.getSearchTermFromHash();
 
     if (this.data.searchTerm) {
-      const el = document.querySelector("#search");
+      const el = this.el.querySelector("#search");
       el.value = this.data.searchTerm;
       this.search();
     }
@@ -85,7 +85,7 @@ Dlite({
     }, 500);
   },
   search() {
-    const el = document.querySelector("#search");
+    const el = this.el.querySelector("#search");
     this.data.searchTerm = el.value.toLowerCase();
 
     this.startSpinner();

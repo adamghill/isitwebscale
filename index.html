@@ -26,21 +26,23 @@
     is it web scale?
   </h1>
 
-  <main hidden>
-    <p>
-      {this.examples}
-    </p>
+  <main>
+    <template id="app">
+      <p>
+        {this.examples}
+      </p>
 
-    <input type="text" id="search" placeholder="Name of technology" autocomplete="off" @input="search"></input>
+      <input type="text" id="search" placeholder="Name of technology" autocomplete="off" @input="search"></input>
 
-    <h2 :style="this.resultStyle">
-      <span :if="this.result">{this.result}</span>
-      <span :else>Type in something above to find all of the answers you seek.</span>
-    </h2>
+      <h2 :style="this.resultStyle">
+        <span :if="this.result">{this.result}</span>
+        <span :else>Type in something above to find all of the answers you seek.</span>
+      </h2>
 
-    <div id="spinner-container">
-      <div id="spinner" style="display: none;" :style="this.spinnerStyle">🤔</div>
-    </div>
+      <div id="spinner-container">
+        <div id="spinner" style="display: none;" :style="this.spinnerStyle">🤔</div>
+      </div>
+    </template>
   </main>
 </body>
 
