@@ -28,6 +28,41 @@
 
   <main>
     <template id="app">
+      <style>
+        body {
+          background-color: #f9f9f9;
+        }
+
+        h1 {
+          margin-top: 1em;
+          font-size: 5em;
+        }
+
+        #search {
+          padding: .5em 2rem 2rem 2rem;
+          font-size: 4em;
+          height: 2em;
+          width: 100%;
+        }
+
+        #result {
+          color: #666;
+        }
+
+        #spinner {
+          display: none;
+        }
+
+        #spinner-container {
+          text-align: center;
+          top: 275px;
+          position: absolute;
+          right: 350px;
+        }
+      </style>
+
+      <link rel="stylesheet" href="/static/css/spinner.css" />
+
       <p>
         {this.examples}
       </p>
