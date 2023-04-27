@@ -1,4 +1,4 @@
-import Dlite from "//unpkg.com/dlite";
+import Dlite from "//unpkg.com/dlite@0.17.0";
 
 Dlite({
   el: "#app",
